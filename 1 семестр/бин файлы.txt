@@ -1,0 +1,82 @@
+// ConsoleApplication27.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {char name[20]; int kol; float weight;} bagaj;
+
+void read(FILE * f, int a, bagaj * list);
+void findPass(FILE * f, int a, bagaj * list);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	char c;
+	bagaj *list;
+	int i, k;
+	FILE * f;
+	printf("Сколько вещей в списке?\n");
+	scanf_s("%d", &k);
+	while((c = getchar()) != '\n' && c != EOF);
+	list = (bagaj *)calloc(k, sizeof(bagaj));
+	f = fopen("d:/bagaj.dat", "wb");
+	for (i=0;i<k;i++){
+		printf("Введите информацию о багаже №%d.\n\n", i+1);
+		printf("Введите ФИО пассажира:\n");
+		gets((list+i)->name);
+		printf("Введите кол-во вещей:\n");
+		scanf_s("%d", &(list+i)->kol);
+		while((c = getchar()) != '\n' && c != EOF);
+		printf("Введите вес вещей:\n");
+		scanf_s("%f", &(list+i)->weight);
+		while((c = getchar()) != '\n' && c != EOF);
+		fwrite(&list, sizeof(bagaj), 1, f);
+	}
+	fclose(f);
+	f = fopen("d:/bagaj.dat", "rb");
+	system("cls");
+	printf("Исходная таблица:\n");
+	printf("\n");
+	read(f, k, list);
+	printf("\n");
+	findPass(f, k, list);
+	fclose(f);
+	_getch();
+	return 0;
+}
+
+void findPass(FILE * f, int a, bagaj * list){
+	setlocale(LC_ALL, "rus");
+	int d, i, j, l = 0, m = 0, k = 0, kolMax, iwMax, ikolMax;
+	float wMax;
+	fread(&list, sizeof(bagaj), a, f);
+	wMax = list->weight;
+	kolMax = list->kol;
+	for (i=0; i<a; i++){
+		if ((list+i)->kol > kolMax){
+			kolMax = (list+i)->kol;
+			ikolMax = i;
+		}
+		if ((list+i)->weight > wMax){
+			wMax = (list+i)->weight;
+			iwMax = i;
+		}
+	}
+	if (ikolMax = iwMax) printf("У пассажира №%d больше всего вещей, и больше всего вес", ikolMax+1);
+	else printf("Такого пассажира нет.");
+
+}
+
+void read(FILE * f, int a, bagaj * list){
+	setlocale(LC_ALL, "rus");
+	int i;
+	for (i=0; i<a; i++){
+		printf("%s\t%d\t%5.2f\t\n", (list+i)->name, (list+i)->kol, (list+i)->weight);
+	}
+}
+

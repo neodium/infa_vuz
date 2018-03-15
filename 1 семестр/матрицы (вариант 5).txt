@@ -1,0 +1,56 @@
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+#include <math.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	float F[10][10], sum = 0, maxN;
+	int i, j, iN, jN, k, N, el=0;
+	printf("Vvedite kol-vo strok i stolbzov matrizi: \n");
+	scanf_s("%d", &N);
+	printf("Vvedite elementi matrizi: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<N; j++)
+		{
+			scanf_s("%f", &F[i][j]);
+			printf("  ");
+		}
+		printf("\n");
+	}
+	printf("Ish matriza: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<N; j++)
+		{
+			printf("%5.2f\t", F[i][j]);
+		}
+	printf("\n");
+	}
+	printf("\n");
+	maxN = F[1][0];
+	for (iN=1; iN<N; iN++)
+	{
+		for (jN=0; jN<=iN-1; jN++)
+		{
+			if (F[iN][jN] > maxN) maxN = F[iN][jN];
+		}
+	}
+	for (i=0; i<N-1; i++)
+	{
+		for (j=i+1; j<N; j++)
+		{
+			if (F[i][j] > maxN) 
+			{
+				sum = sum + F[i][j];
+				el++;
+			}
+		}
+	}
+	if (el==0) printf("Elementov verhney treug. matrizi bolshih vsem elementam nijney matrizi ne sushesvuet. \n");
+	else printf("Poluchennaya summa - %5.2f", sum); 
+	_getch();
+	return 0;
+}

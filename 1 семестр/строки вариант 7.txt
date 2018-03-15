@@ -1,0 +1,63 @@
+#include "stdafx.h"
+#include <math.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void del(char s[], char s2[]);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	char Z[18][20], a[400], b[400], vowt[13];
+	a[0] = 0;
+	b[0] = 0;
+	const char vow[] = "AEIOUYaeiouy";
+	strcpy_s(vowt, vow);
+	int m, n, i, j, k=0;
+	printf("Vvedite kol-vo strok matrizi: \n");
+	scanf_s("%d", &m);
+	printf("Vvedite elementi matrizi: \n");
+	for (i=0; i<m+1; i++)
+	{
+			gets_s(Z[i]);
+	}
+	for (i=0; i<m+1; i++)
+	{
+		strcat_s(a,Z[i]);
+	}
+	printf("\n");
+	for (i=0; i<strlen(a); i++)
+	{
+		for (j=0; j<strlen(vow); j++)
+		{
+			if (a[i]==vow[j])
+				{
+					b[k] = a[i];
+					k++;
+				}
+		}
+	}
+	b[k]='\0';
+	del(vowt, b);
+	printf("Ishodnaya matriza:\n", vowt);
+	for (i=0; i<m+1; i++)
+	{
+			puts(Z[i]);
+	}
+	printf("\n");
+	printf("Poluchennaya stroka: %s \n", vowt);
+	printf("\n");
+	_getch();
+	return 0;
+}
+
+void del(char s[], char s2[]) {
+	int k, i, j;
+ 
+	for (k = 0; s2[k] != '\0'; k++) { 
+		for (i = j = 0; s[i] != '\0'; i++)
+			if (s[i] != s2[k])
+				s[j++] = s[i];
+		s[j] = '\0';
+	}
+}

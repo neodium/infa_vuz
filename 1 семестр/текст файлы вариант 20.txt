@@ -1,0 +1,66 @@
+#include "stdafx.h"
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+
+void mostVowels(FILE * f);
+
+int main(int argc, const char * argv[]){
+	FILE * f = fopen("text.txt", "r");
+	mostVowels(f);
+	fclose(f);
+	_getch();
+	return 0;
+}
+
+void mostVowels(FILE * f){
+	setlocale(LC_ALL, "rus");
+	int i, j, d = 0, k = 0, l = 0, count = 0, maxVow = 0, imaxVow1 = 0;
+	char string[255] = {0};
+	char vowels[21] = "аоиеЄэыую€јќ»≈®Ёџ”ёя";
+	while(fgets(string, 255, f) != NULL){
+		count++;
+	}
+	int *vowCount;
+	int *imaxVow;
+	vowCount = (int *)malloc(count * sizeof(int));
+	imaxVow = (int *)malloc(count * sizeof(int));
+	rewind(f);
+	while(!feof(f)){
+		fgets(string, 255, f);
+		for (i=0; i<strlen(string); i++){
+			if (strchr(vowels, string[i]) != 0){
+				d++;
+			}
+		}
+		vowCount[k] = d;
+		d = 0;
+		k++;
+	}
+	for (i=0;i<k;i++){
+		if (vowCount[i]>maxVow){
+			maxVow = vowCount[i];
+			imaxVow1 = i;
+		}
+	}
+	for (i=0;i<k;i++){
+		if (vowCount[i]==maxVow){
+			imaxVow[l] = i;
+			l++;
+		}
+	}
+	rewind(f);
+	printf("‘амилии с максимальным количеством гласных:\n");
+	for (i=0;i<k;i++){
+		fgets(string, 255, f);
+		for (j=0;j<l;j++){
+			if (imaxVow[j] == i){
+				printf("%s", string);
+			}
+		}
+	}
+	free(vowCount);
+	free(imaxVow);
+}

@@ -1,0 +1,92 @@
+// ConsoleApplication27.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {char name[20]; char marka[10]; char number[14];} automobile;
+
+void vvod(FILE * f, int a, automobile * list);
+void read(FILE * f, int a, automobile * list);
+void findMarka(FILE * f, int a, automobile * list);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	char c;
+	automobile *list;
+	int i, k;
+	FILE * f;
+	printf("Сколько автомобилей в списке?");
+	scanf_s("%d", &k);
+	while((c = getchar()) != '\n' && c != EOF);
+	list = (automobile *)calloc(k, sizeof(automobile));
+	f = fopen("auto.dat", "wb");
+	vvod(f, k, list);
+	fclose(f);
+	f = fopen("auto.dat", "rb");
+	system("cls");
+	printf("Исходная таблица:\n");
+	printf("\n");
+	read(f, k, list);
+	printf("\n");
+	findMarka(f, k, list);
+	fclose(f);
+	_getch();
+	return 0;
+}
+
+void vvod(FILE * f, int a, automobile * list){
+	int i;
+	for (i=0;i<a;i++){
+		printf("Введите информацию автомобиля №%d.\n\n", i+1);
+		printf("Введите ФИО владельца:\n");
+		gets((list+i)->name);
+		printf("Введите марку автомобиля:\n");
+		gets((list+i)->marka);
+		printf("Введите номер автомобиля:\n");
+		gets((list+i)->number);
+		fwrite(&list, sizeof(automobile), 1, f);
+	}
+}
+
+void findMarka(FILE * f, int a, automobile * list){
+	setlocale(LC_ALL, "rus");
+	int d, i, j, l = 0, m = 0, k = 0, uniqOcc[100];
+	char uniqM[100][10] = {0};
+	fread(&list, sizeof(automobile), a, f);
+	for (i=0; i<a; i++){
+		for (j=0; j<a; j++){
+			if (strcmp(uniqM[j], (list+i)->marka) == 0) l++;
+		}
+		if (l == 0){
+			strcpy(uniqM[m], (list+i)->marka);
+			//printf("Марка: %s\n", uniqM[m]);
+			m++;
+		}
+		l=0;
+	}
+	for (i=0; i<m; i++){
+		for (j=0; j<a; j++){
+			if (strcmp(uniqM[i], (list+j)->marka) == 0) k++;
+		}
+		uniqOcc[i] = k;
+		printf("Марка: %s - %d\n", uniqM[i], uniqOcc[i]);
+		k=0;
+	}
+	memset(uniqM, 0, sizeof(uniqM)); 
+	memset(uniqOcc, 0, sizeof(uniqOcc));
+}
+
+void read(FILE * f, int a, automobile * list){
+	setlocale(LC_ALL, "rus");
+	int i;
+	for (i=0; i<a; i++){
+		printf("%s\t%s\t%s\t\n", (list+i)->name, (list+i)->marka, (list+i)->number);
+	}
+}
+

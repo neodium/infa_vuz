@@ -1,0 +1,76 @@
+// рк1-2.cpp: определяет точку входа для консольного приложения.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	float A[15][20], B[15][20], maxs=0, mins=0, sum = 0, fulls = 0;
+	int i, j, N, M, jmax=0, jmin=0;
+	printf("Vvedite kol-vo strok i stolbzov matrizi: \n");
+	scanf_s("%d %d", &N, &M);
+	printf("Vvedite elementi matrizi: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			scanf_s("%f", &A[i][j]);
+			printf("\t");
+		}
+		printf("\n");
+	}
+	printf("Ish matriza: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			printf("%5.2f\t", A[i][j]);
+		}
+	printf("\n");
+	}
+	for (j=0; j<M; j++)
+	{
+		for (i=0; i<N; i++)
+		{
+			sum = sum + A[i][j];
+			//printf("%f \n", sum);
+		}
+		if (j>jmax) jmax=j;
+		//printf("%d \n", jmax);
+		if (j<jmin) jmin=j;
+		//printf("%d \n", jmin);
+		if (sum>maxs) maxs=sum;
+		//printf("%d \n", maxs);
+		if (sum<mins) mins=sum;
+		//printf("%d \n", mins);
+	}
+	for (i=0; i<N; i++)
+	{
+			B[i][j] = A[i][jmax];
+			A[i][jmax] = A[i][jmin];
+			A[i][jmin] = B[i][j];
+	}
+	printf("Novaya matriza: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			printf("%5.2f\t", A[i][j]);
+		}
+	printf("\n");
+	}
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			fulls = fulls + A[i][j];
+		}
+	}
+	printf("Summa: %f", fulls);
+	_getch();
+	return 0;
+}
+

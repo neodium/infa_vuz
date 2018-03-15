@@ -1,0 +1,62 @@
+// ConsoleApplication7.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <math.h>
+#include <conio.h>
+
+float sum(int A)
+{
+	int S=0, pr1=0, pr2=0, i;
+	for (i = 10; i<10000; i=i*10)
+	{
+		pr1 = A%i;
+		//printf("A - %d\n", A);
+		//printf("pr1_1 - %d\n", pr1);
+		while (pr1>10 || pr1<-10)
+		{
+			pr2 = pr1%(i/10);
+			//printf("pr2 - %d\n", pr2);
+			pr1 = (pr1 - pr2)/(i/10);
+			//printf("pr1_2 - %d\n", pr1);
+		}
+		if (pr1 = A) S = pr1;
+		else S = S + pr1;
+		//printf("S - %d\n", S);
+	}
+	return S;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int K[20], L[20], r, i;
+	printf("Vvedite razmer massiva: \n");
+	scanf_s("%d", &r);
+	printf("Vvedite elementi massiva: \n");
+	for (i=0; i<r; i++)
+	{
+		scanf_s("%d", &K[i]);
+	}
+	for (i=0; i<r; i++)
+	{
+		L[i] = sum(K[i]);
+	}
+	for(i = 0 ; i < r - 1; i++) { 
+       for(int j = 0 ; j < r - i - 1 ; j++) {  
+           if(sum(K[j]) > sum(K[j+1])) {            
+              int tmp = K[j];
+              K[j] = K[j+1] ;
+              K[j+1] = tmp; 
+           }
+        }
+    }
+	printf("Noviy massiv: \n");
+	for (i=0; i<r; i++)
+	{
+		printf("%d ", K[i]);
+	}
+	_getch();
+	return 0;
+}
+
+

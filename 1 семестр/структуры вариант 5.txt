@@ -1,0 +1,199 @@
+// ConsoleApplication21.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "stdlib.h"
+#include "string.h"
+#include "locale.h"
+#include "conio.h"
+
+struct footballers {int count; char team[25]; char name[25]; int year; char spez[25];};
+void createSpisok(struct footballers *a, int b);
+void addto1(struct footballers *a, int b);
+void search1(struct footballers *a, int b, int c, char d[25]);
+void search2(struct footballers *a, int b, int c, int d);
+void showSpisok(struct footballers *a, int b);
+
+int menu(){
+	system("cls");
+	int option=0, k=0;
+	setlocale(LC_ALL, "rus");
+	do {printf("\n*********************************************************\n");
+		printf("Меню:\n");
+		printf("1. Создать список\n");
+		printf("2. Просмотреть список\n");
+		printf("3. Добавить футболиста\n");
+		printf("4. Поиск по году и команде\n");
+		printf("5. Поиск нападающих по году рождения от a до b\n");
+		printf("6. Удалить список\n");
+		printf("7. Выход\n");
+		printf("\n*********************************************************\n");
+		scanf_s("%d", &option);
+		printf("\n");
+		if (option>0 && option<8) k=1;
+	} while (!k);
+	return option;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	int i, k, pYearMin, pYearMax, pYear;
+	bool bMENU = true, flag = false;
+	char pTeam[25], delName[25], c;
+	pTeam[0] = 0;
+	footballers *list;
+	list = (footballers *)calloc(1, sizeof(footballers));
+	flag = true;
+	while (bMENU){
+		switch(menu()){
+		case 1:
+			while((c = getchar()) != '\n' && c != EOF);
+			if (flag = true) free(list);
+			system("cls");
+			printf("| Создать список |\n");
+			printf("Введите кол-во футболистов.\n");
+			scanf_s("%d", &k);
+			while((c = getchar()) != '\n' && c != EOF);
+			list = (footballers *)calloc(k, sizeof(footballers));
+			createSpisok(list, k);
+			flag = true;
+			_getch();
+			break;
+		case 3:
+			while((c = getchar()) != '\n' && c != EOF);
+			addto1(list, k);
+			k=k+1;
+			_getch();
+			break;
+		case 2:
+			system("cls");
+			showSpisok(list, k);
+			_getch();
+			break;
+		case 4:
+			system("cls");
+			printf("| Поиск по году и команде |\n\n");
+			printf("Введите год рождения футболиста:\n");
+			scanf_s("%d", &pYear);
+			while((c = getchar()) != '\n' && c != EOF);
+			printf("Введите команду футболиста:\n");
+			gets_s(pTeam);
+			search1(list, k, pYear, pTeam);
+			_getch();
+			break;
+		case 5:
+			system("cls");
+			printf("| Поиск по году рождения от a до b |\n\n");
+			printf("Введите min год рождения футболиста:\n");
+			scanf_s("%d", &pYearMin);
+			while((c = getchar()) != '\n' && c != EOF);
+			printf("Введите max год рождения футболиста:\n");
+			scanf_s("%d", &pYearMax);
+			while((c = getchar()) != '\n' && c != EOF);
+			search2(list, k, pYearMin, pYearMax);
+			_getch();
+			break;
+		case 6: 
+			system("cls");
+			printf("| Удаление списка |\n\n");
+			free(list);
+			k = 0;
+			flag = false;
+			printf("Список удалён.\n");
+			_getch();
+			break;
+		case 7:
+			bMENU=false;
+			break;
+		}
+	}
+	return 0;
+}
+
+void createSpisok(struct footballers *a, int b)
+{
+	int i;
+	char c;
+	footballers *list1;
+	list1 = (footballers *)calloc(b, sizeof(footballers));
+	for (i=0;i<b;i++){
+		if (i!=0) system("cls");
+		(list1+i)->count = i+1;
+		printf("Введите информацию о футболисте №%d.\n\n", i+1);
+		printf("Введите название команды футболиста:\n");
+		gets_s((list1+i)->team);
+		printf("Введите фамилию футболиста:\n");
+		gets_s((list1+i)->name);
+		printf("Введите год рождения футболиста:\n");
+		scanf_s("%d", &(list1+i)->year);
+		while((c = getchar()) != '\n' && c != EOF);
+		printf("Введите специализацию футболиста:\n");
+		gets_s((list1+i)->spez);
+		printf("\n\n");
+	}
+	for (i=0;i<b;i++){
+		a[i] = list1[i];
+	}
+	printf("Список успешно создан.");
+}
+
+void addto1(struct footballers *a, int b){
+	int i, k;
+	k = b;
+	char c;
+	footballers *copy1;
+	copy1 = (footballers *)calloc(k+1, sizeof(footballers));
+	for (i=0;i<k;i++){
+		copy1[i+1] = a[i];
+	}
+	printf("| Добавить футболиста в начало |\n\n");
+	(copy1)->count = 1;
+	printf("Введите информацию о добавляемом футболисте.\n\n");
+	printf("Введите название команды футболиста:\n");
+	gets_s((copy1)->team);
+	printf("Введите фамилию футболитса:\n");
+	gets_s((copy1)->name);
+	printf("Введите год рождения футболиста:\n");
+	scanf_s("%d", &((copy1)->year));
+    while((c = getchar()) != '\n' && c != EOF);
+	printf("Введите специализацию футболиста:\n");
+	gets_s((copy1)->spez);
+	printf("\n\n");
+	printf("Игрок добавлен.");
+	k=k+1;
+	for (i=1;i<k;i++){
+		(copy1+i)->count = i+1;
+	}
+	for (i=0;i<k;i++){
+		a[i] = copy1[i];
+	}
+}
+
+void showSpisok(struct footballers *a, int b)
+{
+	int i;
+	printf("| Список футболистов. |\n\n");
+		for (i=0;i<b;i++){
+			printf("№%d - Команда: %s - Фамилия: %s - Год рожд.: %d - Специализация: %s\n", (a+i)->count, (a+i)->team, (a+i)->name, (a+i)->year, (a+i)->spez);
+		}
+}
+
+void search1(struct footballers *a, int b, int c, char d[25])
+{
+	int i;
+	for (i=0; i<b; i++){
+			if((a+i)->year==c && strcmp((a+i)->team, d)==0){
+					printf("№%d - Команда: %s - Фамилия: %s - Год рожд.: %d - Специализация: %s\n", (a+i)->count, (a+i)->team, (a+i)->name, (a+i)->year, (a+i)->spez);
+			}
+	}
+}
+void search2(struct footballers *a, int b, int c, int d)
+{
+	int i;
+	for (i=0; i<b; i++){
+			if(strcmp((a+i)->spez, "Napadajushiy")==0 && c<(a+i)->year<d){
+					printf("№%d - Команда: %s - Фамилия: %s - Год рожд.: %d - Специализация: %s\n", (a+i)->count, (a+i)->team, (a+i)->name, (a+i)->year, (a+i)->spez);
+			}
+	}
+}

@@ -1,0 +1,220 @@
+// ConsoleApplication21.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "stdlib.h"
+#include "string.h"
+#include "locale.h"
+#include "conio.h"
+
+struct expTov {int count; char strana[25]; char name[25]; int kol; int price;};
+void search(struct expTov *a, int b, char n[25], char s[25], int mode);
+void spisok(struct expTov *a, int b);
+void removeTov(struct expTov *a, int b, char name[25], int c);
+
+int menu(){
+	system("cls");
+	int option=0, k=0;
+	setlocale(LC_ALL, "rus");
+	do {printf("\n|-------------|\n\n");
+		printf("Меню:\n");
+		printf("1. Создать список.\n");
+		printf("2. Просмотреть список.\n");
+		printf("3. Добавить товар.\n");
+		printf("4. Поиск.\n");
+		printf("5. Удалить товар.\n");
+		printf("6. Удалить список.\n");
+		printf("7. Выход.\n");
+		printf("\n|-------------|\n");
+		scanf_s("%d", &option);
+		printf("\n");
+		if (option>0 && option<8) k=1;
+	} while (!k);
+	return option;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	int i, k, dTov, pOpt;
+	bool bMENU = true, list = true;
+	char pStrana[25], pName[25], delName[25], c;
+	pStrana[0] = 0;
+	pName[0] = 0;
+	expTov *tov;
+	tov = (expTov *)calloc(1, sizeof(expTov));
+	while (bMENU){
+		switch(menu()){
+		case 1:
+			system("cls");
+			if (list = true) free(tov);
+			printf("| Создать список |\n\n");
+			printf("Введите кол-во товаров.\n");
+			scanf_s("%d", &k);
+            while((c = getchar()) != '\n' && c != EOF);
+			tov = (expTov *)calloc(k, sizeof(expTov));
+			for (i=0;i<k;i++){
+				if (i!=0) system("cls");
+				(tov+i)->count = i+1;
+				printf("Введите информацию товара №%d.\n\n", i+1);
+				printf("Введите название страны экспортера товара:\n");
+				gets_s((tov+i)->strana);
+				printf("Введите наименование товара:\n");
+				gets_s((tov+i)->name);
+				printf("Введите количество товара:\n");
+				scanf_s("%d", &(tov+i)->kol);
+                while((c = getchar()) != '\n' && c != EOF);
+				printf("Введите стоимость товара:\n");
+				scanf_s("%d", &(tov+i)->price);
+                while((c = getchar()) != '\n' && c != EOF);
+				printf("\n\n");
+			}
+			printf("Список товаров успешно создан.");
+			_getch();
+			break;
+		case 3:
+			while((c = getchar()) != '\n' && c != EOF);
+			expTov *copy1;
+			copy1 = (expTov *)calloc(k+1, sizeof(expTov));
+			for (i=0;i<k;i++){
+			copy1[i] = tov[i];
+			}
+			printf("| Добавить товар |\n\n");
+			(copy1+k)->count = k+1;
+			printf("Введите информацию товара №%d.\n\n", k+1);
+			printf("Введите название страны экспортера товара:\n");
+			gets_s((copy1+k)->strana);
+			printf("Введите наименование товара:\n");
+			gets_s((copy1+k)->name);
+			printf("Введите количество товара:\n");
+			scanf_s("%d", &((copy1+k)->kol));
+            while((c = getchar()) != '\n' && c != EOF);
+			printf("Введите стоимость товара:\n");
+			scanf_s("%d", &((copy1+k)->price));
+            while((c = getchar()) != '\n' && c != EOF);
+			printf("\n\n");
+			printf("Товар добавлен.");
+			k=k+1;
+			tov = (expTov *)calloc(k+1, sizeof(expTov));
+			for (i=0;i<k;i++){
+			tov[i] = copy1[i];
+			}
+			_getch();
+			break;
+		case 2:
+			system("cls");
+			spisok(tov, k);
+			_getch();
+			break;
+		case 4:
+			system("cls");
+			printf("| Поиск товара. |\n\n");
+			printf("Выберите параметры поиска.\n");
+			printf("1. Поиск по наименованию товара.\n");
+			printf("2. Поиск по стране товара.\n");
+			printf("3. Поиск по стране и по наименованию.\n");
+			scanf_s("%d", &pOpt);
+			while((c = getchar()) != '\n' && c != EOF);
+			switch(pOpt){
+			case 1:
+				printf("Введите наименование товара:\n");
+				gets_s(pName);
+				search(tov, k, pName, pStrana, pOpt);
+				break;
+			case 2:
+				printf("Введите страну товара:\n");
+				gets_s(pStrana);
+				search(tov, k, pName, pStrana, pOpt);
+				break;
+			case 3:
+				printf("Введите наименование товара:\n");
+				gets_s(pName);
+				printf("Введите страну товара:\n");
+				gets_s(pStrana);
+				search(tov, k, pName, pStrana, pOpt);
+				break;
+			}
+			_getch();
+			break;
+		case 5:
+			system("cls");
+			printf("| Удаление товара из списка. |\n\n");
+			printf("Введите наименование товара в списке:\n");
+			gets_s(delName);
+			while((c = getchar()) != '\n' && c != EOF);
+			printf("Введите cтоимость товара в списке:\n");
+			scanf_s("%d", &dTov);
+			while((c = getchar()) != '\n' && c != EOF);
+			removeTov(tov, k, delName, dTov);
+			printf("Товар удалён.\n");
+			k=k-1;
+			_getch();
+			break;
+		case 6: 
+			system("cls");
+			printf("| Удаление списка. |\n\n");
+			free(tov);
+			k = 0;
+			list = false;
+			printf("Список удалён.\n");
+			_getch();
+			break;
+		case 7:
+			bMENU=false;
+			break;
+		}
+	}
+	return 0;
+}
+
+void spisok(struct expTov *a, int b)
+{
+	int i;
+	printf("| Список товаров. |\n\n");
+		for (i=0;i<b;i++){
+			printf("Товар №%d - %s - %s - Кол-во: %d - Стоимость: %d\n", (a+i)->count, (a+i)->strana, (a+i)->name, (a+i)->kol, (a+i)->price);
+		}
+}
+
+void search(struct expTov *a, int b, char n[25], char s[25], int mode)
+{
+	int i;
+	switch(mode){
+		case 1:
+			for (i=0; i<b; i++){
+				if(strcmp((a+i)->name, n)==0){
+					printf("Товар №%d - %s - %s - Кол-во: %d - Стоимость: %d\n", (a+i)->count, (a+i)->strana, (a+i)->name, (a+i)->kol, (a+i)->price);
+				}}
+		case 2:
+			for (i=0; i<b; i++){
+				if(strcmp((a+i)->strana, s)==0){
+					printf("Товар №%d - %s - %s - Кол-во: %d - Стоимость: %d\n", (a+i)->count, (a+i)->strana, (a+i)->name, (a+i)->kol, (a+i)->price);
+				}}
+		case 3:
+			for (i=0; i<b; i++){
+				if(strcmp((a+i)->name, n)==0 && strcmp((a+i)->strana, s)==0){
+					printf("Товар №%d - %s - %s - Кол-во: %d - Стоимость: %d\n", (a+i)->count, (a+i)->strana, (a+i)->name, (a+i)->kol, (a+i)->price);
+				}}
+	}
+}
+
+void removeTov(struct expTov *a, int b, char name[25], int c)
+{
+	int i, flag;
+	expTov *rem1;
+	rem1 = (expTov *)calloc(b, sizeof(expTov));
+	for (i=0;i<b;i++){
+		if ((a+i)->price != c && strcmp((a+i)->name, name) != 0){
+		rem1[i] = a[i];
+		}
+		else flag = i;
+	}
+	for (i=flag;i<b-1;i++){
+		rem1[i] = rem1[i+1];
+		(rem1+i)->count = i+1;
+	}
+	for (i=0;i<b-1;i++){
+		a[i] = rem1[i];
+	}
+	free(rem1);
+}

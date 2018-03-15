@@ -1,0 +1,103 @@
+// ConsoleApplication15.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <math.h>
+#include <conio.h>
+#include <locale.h>
+#include <stdlib.h>
+
+void minmax(int X[][8], int Y[][2], int Z[][2], int M, int N);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	int H[9][8], P[8][2], Q[9][2], k, l, i, j;
+	printf("Введите кол-во строк и столбцов матрицы:\n");
+	scanf_s("%d %d", &k, &l);
+	printf("Введите элементы матрицы:\n");
+	for (i=0; i<k; i++)
+	{
+		for (j=0; j<l; j++)
+		{
+			scanf_s("%d", &H[i][j]);
+		}
+		printf("\n");
+	}
+	minmax(H, P, Q, k, l);
+	printf("Изначальная матрица: \n");
+	for (i=0; i<k; i++)
+	{
+		for (j=0; j<l; j++)
+		{
+			printf("%d ", H[i][j]);
+		}
+		printf("\n");
+	}
+	printf("Матрица min max: \n");
+	for (i=0; i<l; i++)
+	{
+		for (j=0; j<2; j++)
+		{
+			printf("%d ", P[i][j]);
+		}
+		printf("\n");
+	}
+	printf("Умн. матрица: \n");
+	for (i=0; i<k; i++)
+	{
+		for (j=0; j<2; j++)
+		{
+			printf("%d ", Q[i][j]);
+		}
+		printf("\n");
+	}
+	_getch();
+	return 0;
+}
+
+void minmax(int X[][8], int Y[][2], int Z[][2], int M, int N)
+{
+	int i, j, elem1 = 0, elem2 = 0, buf1 = 0, buf2 = 0, min, max, imin = 0, imax = 0;
+	min = X[0][0];
+	max = X[0][0];
+	for (i=0; i<M; i++)
+	{
+		for (j=0; j<N; j++)
+		{
+			if (X[i][j] < min)
+			{
+				min = X[i][j];
+				imin = i;
+			}
+			if (X[i][j] > max)
+			{
+				max = X[i][j];
+				imax = i;
+			}
+		}
+	}
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<2; j++)
+		{
+			Y[i][0] = X[imin][i];
+			Y[i][1] = X[imax][i];
+			}
+		}
+	for (i=0; i<M; i++)
+	{
+		for (j=0; j<N; j++)
+		{
+			buf1 = X[i][j] * Y[j][0];
+			buf2 = X[i][j] * Y[j][1];
+			elem1 = elem1 + buf1;
+			elem2 = elem2 + buf2;
+		}
+		Z[i][0] = elem1;
+		Z[i][1] = elem2;
+		elem1 = 0;
+		elem2 = 0;
+	}
+}

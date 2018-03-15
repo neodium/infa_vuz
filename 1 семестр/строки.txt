@@ -1,0 +1,72 @@
+#include "stdafx.h"
+#include <math.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int sym(char s[], int a);
+void sort(char s[][20], int a, int b);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	char SIM[15][20], c;
+	int m, n, i, j, k=0;
+	printf("Vvedite kol-vo strok i stolbzov matrizi: ");
+	scanf_s("%d%d", &m, &n);
+	while((c = getchar()) != '\n' && c != EOF);
+	for (i=0; i<m; i++)
+	{
+		gets_s(SIM[i]);
+	}
+	printf("Ishodnaya matriza:\n");
+	for (i=0; i<m; i++)
+	{
+			puts(SIM[i]);
+			printf("\n %d \n", sym(SIM[i], n));
+	}
+	sort(SIM, m, n);
+	printf("Izmenennaya matriza:\n");
+	for (i=0; i<m; i++)
+	{
+			puts(SIM[i]);
+	}
+	_getch();
+	return 0;
+}
+
+int sym(char s[], int a)
+{
+	int i, k=0, t;
+	t = a-1;
+		//printf("a%2 - %d ", a%2);
+		for (i=0; i<(t/2)+1; i++)
+		{
+			/*printf("s[%d] - %c ", i, s[i]);
+			printf("s[a-%d] - %c ", i, s[t-i]);*/
+			if (s[i] == s[t-i]) k++;
+		}
+		//printf("k - %d ", k);
+		if (a%2==0){
+			if (k == a/2) return 1;
+			else return 0;
+		}
+		else{
+			if (k == a-2) return 1;
+			else return 0;
+		}
+}
+
+void sort(char s[][20], int a, int b)
+{
+	int i, j;
+	char tmp[20];
+	for(i = 0 ; i < a - 1; i++) { 
+       for(j = 0 ; j < a - 1 - i; j++) {  
+           if(sym(s[j], b) < sym(s[j+1], b)) {           
+              strcpy_s(tmp,s[j]);
+              strcpy_s(s[j],s[j+1]);
+              strcpy_s(s[j+1],tmp); 
+           }
+        }
+    }
+}

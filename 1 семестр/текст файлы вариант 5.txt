@@ -1,0 +1,46 @@
+#include "stdafx.h"
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+
+void repeatCheck(FILE * f);
+
+int main(int argc, const char * argv[]){
+	char word[25], line[100];
+	FILE * f = fopen("d:/test.txt", "r"); //поменять путь на настоящий путь файла!
+	repeatCheck(f);
+	fclose(f);
+	_getch();
+	return 0;
+}
+
+void repeatCheck(FILE * f){
+	setlocale(LC_ALL, "rus");
+	int i, j, l = 0, k = 0, strCount = 1, strLength, uniqOcc[1000];
+	char string[1000] = {0};
+	char uniqC[1000] = {0};
+	while(!feof(f)){
+		printf("Уникальные символы строки #%d и их количество:\n", strCount);
+		fgets(string, 255, f);
+		for (i=0; i<strlen(string); i++){
+			if (strchr(uniqC, string[i]) == 0 && string[i] != ' ' && string[i] != '\0' && string[i] != '\n'){
+				uniqC[l] = string[i];
+				l++;
+			}
+		}
+		l = 0;
+		for (i=0; i<strlen(uniqC); i++){
+			for (j=0; j<strlen(string); j++){
+				if (uniqC[i] == string[j]) k++;
+			}
+			uniqOcc[i] = k;
+			printf("Символ: %c - %d\n", uniqC[i], uniqOcc[i]);
+			k=0;
+		}
+		memset(uniqC, 0, sizeof(uniqC)); //очищает массив с уникальными символами в строке
+		memset(uniqOcc, 0, sizeof(uniqOcc));//очищает массив с кол-вом уникальных символов в строке
+		strCount+=1;
+	}
+}

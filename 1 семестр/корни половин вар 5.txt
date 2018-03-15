@@ -1,0 +1,31 @@
+#include "stdafx.h"
+#include <math.h>
+#include <stdio.h>
+#include <conio.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	float a, b, x, eps, fa, fx;
+	int n;
+	const float p=0.2;
+	printf("Ish dannie: x, a, b, eps\n");
+	scanf_s("%f %f %f %f", &x, &a, &b, &eps);
+	fa = powf(a, 5) - a + p;
+	fx = powf(x, 5) - x + p;
+	n=0;
+	while (abs(a-b)>eps && (fa*fx!=0))
+	{
+		if (fa*fx>0) a=x;
+		else b=x;
+		n++;
+		x=(a+b)/2;
+		fx = powf(x, 5) - x + p;
+	}
+	printf("\n");
+	printf("Dlya eps=%5.3f:\n", eps);
+	printf("x=%8.3f n=%5d", x, n);
+	_getch();
+	return 0;
+}
+

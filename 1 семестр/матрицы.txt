@@ -1,0 +1,59 @@
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+#include <math.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	float B[10][12], C[10][3], sumP = 0, sumO = 0;
+	int i, j, k, N, M;
+	printf("Vvedite kol-vo strok i stolbzov matrizi: \n");
+	scanf_s("%d %d", &N, &M);
+	printf("Vvedite elementi matrizi: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			scanf_s("%f", &B[i][j]);
+			printf("  ");
+		}
+		printf("\n");
+	}
+	printf("\n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			if (B[i][j] >= 0) sumP = sumP + B[i][j];
+			else sumO = sumO + abs(B[i][j]);
+		}
+	}
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			C[i][0] = sumP;
+			C[i][1] = sumO;
+			if (sumP > sumO) C[i][2] = -1;
+			else if (sumP < sumO) C[i][2] = 1;
+			else C[i][2] = 0;
+		}
+	}
+	printf("Poluchennaya matriza: \n");
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<M; j++)
+		{
+			printf("%5.2f\t", B[i][j]);
+		}
+		printf("\n");
+		for (k=0; k<3; k++)
+		{	
+			printf("%5.2f\t", C[i][k]);
+		}
+		printf("\n");
+	}
+	_getch();
+	return 0;
+}

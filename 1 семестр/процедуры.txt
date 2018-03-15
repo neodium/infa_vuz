@@ -1,0 +1,127 @@
+// ConsoleApplication15.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <math.h>
+#include <conio.h>
+#include <locale.h>
+#include <stdlib.h>
+
+void minmax(int X[][14], int Y[], int M, int N);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	setlocale(LC_ALL, "rus");
+	int C[12][14], k, l, i, j;
+	printf("Введите кол-во строк и столбцов матрицы:\n");
+	scanf_s("%d %d", &k, &l);
+	int *D = new int [k*l];
+	printf("Введите элементы матрицы:\n");
+	for (i=0; i<k; i++)
+	{
+		for (j=0; j<l; j++)
+		{
+			scanf_s("%d", &C[i][j]);
+			printf("  ");
+		}
+		printf("\n");
+	}
+	minmax(C, D, k, l);
+	printf("Итоговый массив: \n");
+	for (i=0; i<k*l; i++)
+	{
+		if (D[i]!=0) printf("%d ", D[i]);
+	}
+	_getch();
+	return 0;
+}
+
+void minmax(int X[][14], int Y[], int M, int N)
+{
+	int *y, *z, i, j, nonz = 0, d = 0, k = 0, k1, k2, min, max, kmin = 0, kmax = 0;
+	min = X[0][0];
+	max = X[0][0];
+	for (i=0; i<M; i++)
+	{
+		for (j=0; j<N; j++)
+		{
+			if (X[i][j] < min)
+			{
+				min = X[i][j];
+				kmin = k;
+			}
+			if (X[i][j] > max)
+			{
+				max = X[i][j];
+				kmax = k;
+			}
+			Y[k] = X[i][j];
+			k++;
+		}
+	}
+	if (kmin>kmax) k1 = kmax, k2 = kmin;
+	else k1 = kmin, k2 = kmax;
+	for (i=0; i<k; i++)
+	{
+		//printf("do y[%d] - %d ", i, Y[i]);
+		if (i<k1) Y[i] = 0;
+		if (i>k2) Y[i] = 0;
+		//printf("posle y[%d] - %d ", i, Y[i]);
+	}
+	for(i=0;i<k;i++)
+	{
+   		if (Y[i]!=0) nonz++;
+	}
+	/*printf("Полученный массив Y: \n");
+	for (i=0; i<k; i++)
+	{
+		printf("%d ", Y[i]);
+	}
+	printf("\n");
+	printf("nonz - %d ", nonz);
+	printf("\n");*/
+	y = new int[nonz];
+	for (k=0; k<=nonz; k++)
+	{
+		if (Y[k]!=0) 
+		{
+			y[d] = Y[k];
+			d++;
+		}
+	}
+	/*printf("Полученный массив y: \n");
+	for (i=0; i<nonz; i++)
+	{
+		printf("%d ", y[i]);
+	}*/
+	d = 0;
+	z = new int[nonz-2];
+	for (k=1; k<nonz-1; k++)
+	{
+		z[d] = y[k];
+		d++;
+	}
+	/*printf("Полученный массив z: \n");
+	for (i=0; i<nonz-2; i++)
+	{
+		printf("%d ", z[i]);
+	}*/
+	for(i = 0 ; i < nonz - 3; i++) { 
+       for(j = 0 ; j < nonz - 3 - i; j++) {  
+           if(z[j] > z[j+1]) {           
+              int tmp = z[j];
+              z[j] = z[j+1] ;
+              z[j+1] = tmp; 
+           }
+        }
+    }
+	d = 0;
+	for (k=0; k<nonz-2; k++)
+	{
+		Y[d] = z[k];
+		d++;
+	}
+	for (i=nonz-2; i<M*N; i++)
+		Y[i] = 0;
+}

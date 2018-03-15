@@ -1,0 +1,45 @@
+// рк1.cpp: определяет точку входа для консольного приложения.
+//
+
+#include "stdafx.h"
+#include <stdio.h>
+#include <math.h>
+#include <conio.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int d[30], i, pol, r;
+	printf("Vvedite razmer massiva: \n");
+	scanf_s("%d", &r);
+	printf("Vvedite elementi massiva: \n");
+	for (i=0; i<r; i++)
+	{
+		scanf_s("%d", &d[i]);
+	}
+	printf("Ishodniy massiv: \n");
+	for (i=0; i<r; i++)
+	{
+		printf("%d ", d[i]);
+	}
+	printf("\n");
+	pol = 1;
+	for (i=0; i<r; i++)
+	{
+		if (d[i]>0)
+		{
+			pol = pol*d[i];
+		}
+	}
+	d[4] = pol;
+	printf("Noviy massiv: \n");
+	for (i=0; i<r; i++)
+	{
+		printf("%d ", d[i]);
+	}
+	printf("\n");
+	printf("Proizvedenie: %d \n", pol);
+	_getch();
+	return 0;
+}
+
