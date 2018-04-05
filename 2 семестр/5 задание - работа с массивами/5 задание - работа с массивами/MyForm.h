@@ -43,14 +43,15 @@ namespace _5_задание___работа_с_массивами {
 	private: System::Windows::Forms::TextBox^  textBox2;
 	private: System::Windows::Forms::Label^  label3;
 
-	private: System::Windows::Forms::Button^  button1;
+
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::DataGridView^  dataGridView2;
 	private: System::Windows::Forms::ToolStripMenuItem^  менюToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  вводМатрицыToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  сргеомполToolStripMenuItem;
 
-	private: System::Windows::Forms::ToolStripMenuItem^  произведениеОтрицательныхToolStripMenuItem;
+
 	private: System::Windows::Forms::ToolStripMenuItem^  сравнениеToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  сортировкаToolStripMenuItem;
 	protected: 
@@ -60,6 +61,10 @@ namespace _5_задание___работа_с_массивами {
 		/// Требуется переменная конструктора.
 		/// </summary>
 		System::ComponentModel::Container ^components;
+
+	private:
+		int n, m;
+		array <double,2> ^arr;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -76,12 +81,11 @@ namespace _5_задание___работа_с_массивами {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->менюToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->вводМатрицыToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->произведениеОтрицательныхToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->сргеомполToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->сравнениеToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->сортировкаToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
@@ -157,21 +161,11 @@ namespace _5_задание___работа_с_массивами {
 			this->label3->TabIndex = 7;
 			this->label3->Text = L"Введите элементы массива:";
 			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(12, 239);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(150, 23);
-			this->button1->TabIndex = 9;
-			this->button1->Text = L"Ввести";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
-			// 
 			// richTextBox1
 			// 
 			this->richTextBox1->Location = System::Drawing::Point(12, 139);
 			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(150, 94);
+			this->richTextBox1->Size = System::Drawing::Size(150, 123);
 			this->richTextBox1->TabIndex = 10;
 			this->richTextBox1->Text = L"";
 			// 
@@ -180,14 +174,14 @@ namespace _5_задание___работа_с_массивами {
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->менюToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(455, 24);
+			this->menuStrip1->Size = System::Drawing::Size(728, 24);
 			this->menuStrip1->TabIndex = 11;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// менюToolStripMenuItem
 			// 
 			this->менюToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->вводМатрицыToolStripMenuItem, 
-				this->произведениеОтрицательныхToolStripMenuItem, this->сравнениеToolStripMenuItem, this->сортировкаToolStripMenuItem});
+				this->сргеомполToolStripMenuItem, this->сравнениеToolStripMenuItem, this->сортировкаToolStripMenuItem});
 			this->менюToolStripMenuItem->Name = L"менюToolStripMenuItem";
 			this->менюToolStripMenuItem->Size = System::Drawing::Size(53, 20);
 			this->менюToolStripMenuItem->Text = L"Меню";
@@ -195,28 +189,28 @@ namespace _5_задание___работа_с_массивами {
 			// вводМатрицыToolStripMenuItem
 			// 
 			this->вводМатрицыToolStripMenuItem->Name = L"вводМатрицыToolStripMenuItem";
-			this->вводМатрицыToolStripMenuItem->Size = System::Drawing::Size(240, 22);
+			this->вводМатрицыToolStripMenuItem->Size = System::Drawing::Size(245, 22);
 			this->вводМатрицыToolStripMenuItem->Text = L"Ввод матрицы";
 			this->вводМатрицыToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::вводМатрицыToolStripMenuItem_Click);
 			// 
-			// произведениеОтрицательныхToolStripMenuItem
+			// сргеомполToolStripMenuItem
 			// 
-			this->произведениеОтрицательныхToolStripMenuItem->Name = L"произведениеОтрицательныхToolStripMenuItem";
-			this->произведениеОтрицательныхToolStripMenuItem->Size = System::Drawing::Size(240, 22);
-			this->произведениеОтрицательныхToolStripMenuItem->Text = L"Произведение отрицательных";
-			this->произведениеОтрицательныхToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::произведениеОтрицательныхToolStripMenuItem_Click);
+			this->сргеомполToolStripMenuItem->Name = L"сргеомполToolStripMenuItem";
+			this->сргеомполToolStripMenuItem->Size = System::Drawing::Size(245, 22);
+			this->сргеомполToolStripMenuItem->Text = L"Среднее геом. положительных";
+			this->сргеомполToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::сргеомполToolStripMenuItem_Click);
 			// 
 			// сравнениеToolStripMenuItem
 			// 
 			this->сравнениеToolStripMenuItem->Name = L"сравнениеToolStripMenuItem";
-			this->сравнениеToolStripMenuItem->Size = System::Drawing::Size(240, 22);
+			this->сравнениеToolStripMenuItem->Size = System::Drawing::Size(245, 22);
 			this->сравнениеToolStripMenuItem->Text = L"Сравнение";
 			this->сравнениеToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::сравнениеToolStripMenuItem_Click);
 			// 
 			// сортировкаToolStripMenuItem
 			// 
 			this->сортировкаToolStripMenuItem->Name = L"сортировкаToolStripMenuItem";
-			this->сортировкаToolStripMenuItem->Size = System::Drawing::Size(240, 22);
+			this->сортировкаToolStripMenuItem->Size = System::Drawing::Size(245, 22);
 			this->сортировкаToolStripMenuItem->Text = L"Сортировка";
 			this->сортировкаToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::сортировкаToolStripMenuItem_Click);
 			// 
@@ -250,10 +244,9 @@ namespace _5_задание___работа_с_массивами {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(455, 276);
+			this->ClientSize = System::Drawing::Size(728, 276);
 			this->Controls->Add(this->dataGridView2);
 			this->Controls->Add(this->richTextBox1);
-			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->textBox2);
@@ -274,15 +267,19 @@ namespace _5_задание___работа_с_массивами {
 			this->PerformLayout();
 
 		}
+
 #pragma endregion
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-				 dataGridView1->Columns->Clear();
+private: System::Void вводМатрицыToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 //this->ClientSize = System::Drawing::Size(455, 276);
+			 //dataGridView2->Visible=false;
+			 dataGridView1->Columns->Clear();
 				 dataGridView1->Rows->Clear();
 				 String ^strBuf;
-				 int n,m,i,j;
+				 int i,j;
 				 n = Convert::ToInt16(textBox1->Text);
 				 m = Convert::ToInt16(textBox2->Text);
 				 dataGridView1->ColumnCount=m;
+				 arr = gcnew array <double, 2>(n, m);
 				 for (i=0; i<n; i++){
 					 dataGridView1->Rows->Add();
 					 strBuf = richTextBox1->Lines[i]->ToString();
@@ -290,76 +287,91 @@ namespace _5_задание___работа_с_массивами {
 					 for (j=0; j<m; j++){
 						 //MessageBox::Show(str[j]);
 						 dataGridView1->Rows[i]->Cells[j]->Value=Convert::ToString(str[j]);
+						 arr[i,j] = Convert::ToDouble(str[j]);
 					 }
 				 }
-			 }
-private: System::Void вводМатрицыToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->ClientSize = System::Drawing::Size(455, 276);
-			 dataGridView2->Visible=false;
 		 }
-private: System::Void произведениеОтрицательныхToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 int i, j, n, m;
-			 double proizv = 1;
+private: System::Void сргеомполToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 int i, j, k=0;
+			 double summPol = 0, srGeom;
 			 n = dataGridView1->RowCount;
 			 m = dataGridView1->ColumnCount;
 			 for (i=0; i<n; i++){
 				 for (j=0; j<m; j++){
-					 if (Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value) < 0){
-						 proizv*=Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value);
+					 if (arr[i,j] > 0){
+						 summPol+=arr[i, j];
+						 k++;
 					 }
 				 }
 			 }
-			 MessageBox::Show("Произведение отрицательных = " + proizv);
+			 srGeom = Math::Pow(summPol, 1./k);
+			 MessageBox::Show("Среднее геометрическое положительных = " + srGeom);
 		 }
 private: System::Void сравнениеToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 int i, j, n, m;
-			 double proizvPol = 1, proizvOtr = 1;
+			 int i, j, k=0, maxi=0, maxj=0;
+			 double summPol = 0, srGeom, maxVal;
 			 n = dataGridView1->RowCount;
 			 m = dataGridView1->ColumnCount;
 			 for (i=0; i<n; i++){
 				 for (j=0; j<m; j++){
-					 if (Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value) > 0){
-						 proizvPol*=Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value);
-					 }
-					 if (Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value) < 0){
-						 proizvOtr*=Convert::ToDouble(dataGridView1->Rows[i]->Cells[j]->Value);
+					 if (arr[i,j] > 0){
+						 summPol+=arr[i, j];
+						 k++;
 					 }
 				 }
 			 }
-			 if (proizvPol > proizvOtr){
-				MessageBox::Show("Произведение положительных больше произведения отрицательных");
-			 } else {
-				MessageBox::Show("Произведение отрицательных больше произведения положительных");
+			 srGeom = Math::Pow(summPol, 1./k);
+			 maxVal = arr[0, 0];
+			 for (i=0; i<n; i++){
+				 for (j=0; j<m; j++){
+					 if (arr[i, j] > maxVal){
+						 maxi = i;
+						 maxj = j;
+					 }
+				 }
 			 }
+			 if (maxj == 0){
+				if (srGeom > arr[maxi-1, maxj]){
+					MessageBox::Show("Среднее геометрическое положительных больше элемента стоящего перед максимальным");
+				} else {
+					MessageBox::Show("Среднее геометрическое положительных меньше элемента стоящего перед максимальным");
+				}
+			 } else {
+				 if (srGeom > arr[maxi, maxj-1]){
+					MessageBox::Show("Среднее геометрическое положительных больше элемента стоящего перед максимальным");
+				} else {
+					MessageBox::Show("Среднее геометрическое положительных меньше элемента стоящего перед максимальным");
+				}
+		 }
 		 }
 private: System::Void сортировкаToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 dataGridView2->Columns->Clear();
 			 dataGridView2->Rows->Clear();
-			 this->ClientSize = System::Drawing::Size(728, 276);
-			 dataGridView2->Visible=true;
-			 int i, j, k, n, m;
+			 //this->ClientSize = System::Drawing::Size(728, 276);
+			 //dataGridView2->Visible=true;
+			 int i, j, k;
 			 n = dataGridView1->RowCount;
 			 m = dataGridView1->ColumnCount;
 			 dataGridView2->RowCount = n;
 			 dataGridView2->ColumnCount = m;
-			 for (i=0; i<n; i++){
-				 for (j=0; j<m; j++){
-					 dataGridView2->Rows[i]->Cells[j]->Value = dataGridView1->Rows[i]->Cells[j]->Value;
-				 }
-			 }
 			 for (k=0; k<n; k++){
 				 for(i = 0 ; i < m - 1; i++) { 
 					for(j = 0 ; j < m - i - 1 ; j++) {
-						double VAL = Convert::ToDouble(dataGridView2->Rows[k]->Cells[j]->Value);
-						double VAL2 = Convert::ToDouble(dataGridView2->Rows[k]->Cells[j+1]->Value);
+						double VAL = arr[k, j];
+						double VAL2 = arr[k, j+1];
 						if(VAL > VAL2) {
 							double tmp = VAL;
-							dataGridView2->Rows[k]->Cells[j]->Value = VAL2 ;
-							dataGridView2->Rows[k]->Cells[j+1]->Value = tmp; 
+							arr[k, j] = VAL2 ;
+							arr[k, j+1] = tmp; 
 					}
 				}
 			}
 			}
+			 for (i=0; i<n; i++){
+				 for (j=0; j<m; j++){
+					 dataGridView2->Rows[i]->Cells[j]->Value = arr[i, j];
+				 }
+			 }
 	}
 };
 }
